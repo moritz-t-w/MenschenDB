@@ -74,9 +74,8 @@ CREATE TABLE Land
 	ISO3166_Code -- Country code
 		CHAR (2)
 		NOT NULL,
-	ISO3166_Number
-		INT
-		NOT NULL,
+	ISO3166_Number -- Turns out there's countries without this, so nullable
+		INT,
 	Name -- No UNIQUE constraint, to avoid starting a war
 		NVARCHAR(MAX)
 		NOT NULL,
