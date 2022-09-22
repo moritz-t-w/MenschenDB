@@ -66,6 +66,7 @@ Go
 
 
 ---- Land ----
+
 CREATE TABLE Land
 (
 	-- Fields --
@@ -80,8 +81,7 @@ CREATE TABLE Land
 		NVARCHAR(MAX)
 		NOT NULL,
 	TLD -- Top Level Domain
-		NVARCHAR(3)
-		NOT NULL,
+		NVARCHAR(3),
 
 	-- Constraints --
 
