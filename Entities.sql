@@ -1,3 +1,5 @@
+USE master -- Stop using the database so it can be dropped
+
 DROP DATABASE IF EXISTS Menschen;
 
 CREATE DATABASE Menschen
@@ -196,5 +198,3 @@ CREATE TABLE Mensch
 		(LEN(Telefon) <= 15)
 )
 Go
-
-USE master
