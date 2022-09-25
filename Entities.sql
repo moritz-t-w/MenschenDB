@@ -142,6 +142,6 @@ CREATE TABLE Mensch
 	Telefon
 		NVARCHAR (15) -- ITU-T recommendation E.164 alegedly says max 15 digits
 		NOT NULL
-		CONSTRAINT CK_Mensch_Telefon CHECK (LEN(Telefon) <= 15),
+		CONSTRAINT CK_Mensch_Telefon CHECK (LEN(Telefon) > 5)
 )
 Go
