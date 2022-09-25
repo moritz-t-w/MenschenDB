@@ -126,6 +126,7 @@ CREATE TABLE Mensch
 		NOT NULL,
 	Geburtsdatum
 		DATE
+		NOT NULL
 		CONSTRAINT CK_Mensch_Geburtsdatum CHECK (Geburtsdatum < GETDATE()), -- When do you really becoma a human...?
 	Geschlecht
 		UNIQUEIDENTIFIER
