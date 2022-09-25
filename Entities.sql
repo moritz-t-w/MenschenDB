@@ -37,7 +37,7 @@ CREATE TABLE Geschlecht
 	CONSTRAINT CK_Geschlecht_Anrede CHECK -- No Anrede works too, just leave it out
 		(Anrede IN ('Herr', 'Frau')),
 	CONSTRAINT CK_Geschlecht_Pronomen CHECK -- er, sie, er/sie, es, german isn't so progressive
-		(Pronomen IN ('er', 'sie'))
+		(Pronomen IN ('er', 'sie', 'er/sie'))
 )
 Go
 
