@@ -71,31 +71,17 @@ CREATE TABLE Land
 (
 	-- Fields --
 	
-	ID -- because not all countries have an ISO3166 code or number
+	ID
 		UNIQUEIDENTIFIER
 		NOT NULL,
-
-	ISO3166_Code -- There's even countries without an ALPHA 3 code, so nullable
-		CHAR (2),
-	ISO3166_Number -- Turns out there's countries without this, so nullable
-		INT,
 	Name -- No UNIQUE constraint, to avoid starting a war
 		NVARCHAR(MAX)
-		NOT NULL,
-	TLD -- Top Level Domain
-		NVARCHAR(3),
+		NOT NULL
 
 	-- Constraints --
 
 	CONSTRAINT PK_Land PRIMARY KEY
-		(ID),
-
-	CONSTRAINT UQ_Land_ISO3166_Code UNIQUE
-		(ISO3166_Code),
-	CONSTRAINT UQ_Land_ISONumber UNIQUE
-		(ISO3166_Number),
-	CONSTRAINT UQ_Land_TLD UNIQUE
-		(TLD)
+		(ID)
 )
 Go
 
