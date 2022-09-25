@@ -157,7 +157,7 @@ CREATE TABLE Mensch
 	Name -- but you gotta have at least one name
 		NVARCHAR(MAX)
 		NOT NULL,
-	Geburtdatum
+	Geburtsdatum
 		DATE,
 	Geschlecht
 		UNIQUEIDENTIFIER
@@ -182,8 +182,8 @@ CREATE TABLE Mensch
 	CONSTRAINT FK_Mensch_Adresse FOREIGN KEY
 		(Adresse) REFERENCES Adresse (ID),
 
-	CONSTRAINT CHK_Mensch_Geburtdatum CHECK -- When do you really becoma a human...?
-		(Geburtdatum < GETDATE()),
+	CONSTRAINT CHK_Mensch_Geburtsdatum CHECK -- When do you really becoma a human...?
+		(Geburtsdatum < GETDATE()),
 	CONSTRAINT CHK_Mensch_Telefon CHECK -- ITU-T recommendation E.164 alegedly says max 15 digits
 		(LEN(Telefon) <= 15)
 )
