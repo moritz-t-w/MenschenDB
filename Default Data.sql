@@ -1,5 +1,8 @@
 ---- Default Data ----
 
+USE Menschen
+GO
+
 -- Geschlecht --
 INSERT INTO Geschlecht
 	(Binär, Name, Anrede, Pronomen, GrussEndung)
