@@ -123,6 +123,35 @@ Go
 
 
 
+---- BeschaeftigungsKategorie ----
+
+CREATE TABLE BeschaeftigungsKategorie
+(
+	ID UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT PK_BeschaeftigungsKategorie PRIMARY KEY
+		CONSTRAINT DF_BeschaeftigungsKategorie_ID DEFAULT NEWID() FOR ID,
+	Name NVARCHAR(MAX)
+		NOT NULL
+)
+GO
+
+---- Beschaeftigung ----
+
+CREATE TABLE Beschaeftigung
+(
+	ID UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT PK_Beschaeftigung PRIMARY KEY
+		CONSTRAINT DF_Beschaeftigung_ID DEFAULT NEWID() FOR ID,
+	Name NVARCHAR(MAX)
+		NOT NULL,
+	Beschreibung TEXT,
+	Kategorie UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT FK_Beschaeftigung_Kategorie REFERENCES BeschaeftigungsKategorie(ID)
+)
+GO
 ---- Mensch ----
 
 CREATE TABLE Mensch
@@ -158,3 +187,29 @@ CREATE TABLE Mensch
 		CONSTRAINT CK_Mensch_Telefon CHECK (LEN(Telefon) > 5)
 )
 Go
+
+---- Mensch hat Beschaeftigung bei Arbeitgeber ----
+
+CREATE TABLE MenschBeschaeftigungArbeitgeber
+(
+	Mensch UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT FK_MenschBeschaeftigung_Mensch REFERENCES Mensch (ID),
+	Beschaeftigung UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT FK_MenschBeschaeftigung_Beschaeftigung REFERENCES Beschaeftigung (ID),
+	Arbeitgeber UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT FK_MenschBeschaeftigung_Arbeitgeber REFERENCES Arbeitgeber (ID),
+	Beginn DATE
+		NOT NULL,
+	Ende DATE,
+	Arbeitsstunden FLOAT
+		NOT NULL,
+	Monatslohn MONEY,
+	Kuendingungsfrist
+		INT,
+	CONSTRAINT PK_MenschBeschaeftigung PRIMARY KEY (Mensch, Beschaeftigung, Arbeitgeber)
+)
+GO
+
