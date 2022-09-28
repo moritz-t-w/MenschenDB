@@ -121,7 +121,77 @@ CONSTRAINT FK_Adresse_Ort FOREIGN KEY REFERENCES Ort
 )
 Go
 
+-- KrankheitsKategorie ----
 
+CREATE TABLE KrankheitsKategorie
+(
+	ID UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT PK_KrankheitsKategorie PRIMARY KEY
+		CONSTRAINT DF_KrankheitsKategorie_ID DEFAULT NEWID(),
+	Name NVARCHAR(MAX)
+		NOT NULL
+)
+GO
+
+---- Krankheit ----
+
+CREATE TABLE Krankheit
+(
+	ID UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT PK_Krankheit PRIMARY KEY
+		CONSTRAINT DF_Krankheit_ID DEFAULT NEWID(),
+	Name
+		NVARCHAR(MAX)
+		NOT NULL,
+	Beschreibung
+		TEXT
+		NOT NULL,
+	Behandlung
+		TEXT
+		NOT NULL,
+	Kategorie
+		UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT FK_Krankheit_Kategorie REFERENCES KrankheitsKategorie(ID)
+)
+GO
+
+---- Symptom ----
+
+CREATE TABLE Symptom
+(
+	ID UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT PK_Symptom PRIMARY KEY
+		CONSTRAINT DF_Symptom_ID DEFAULT NEWID(),
+	Name
+		NVARCHAR(MAX)
+		NOT NULL,
+	Beschreibung
+		TEXT
+		NOT NULL
+)
+GO
+---- Krankheit hat Symptom ----
+
+CREATE TABLE KrankheitSymptom
+(
+	Krankheit UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT DF_KrankheitSymptom_Krankheit DEFAULT NEWID()
+		CONSTRAINT FK_KrankheitSymptom_Krankheit REFERENCES Krankheit (ID),
+	Symptom UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT FK_KrankheitSymptom_Symptom REFERENCES Symptom (ID),
+
+
+CONSTRAINT PK_KrankheitSymptom
+PRIMARY KEY
+(Krankheit, Symptom)
+)
+GO
 
 ---- BeschaeftigungsKategorie ----
 
@@ -213,3 +283,65 @@ CREATE TABLE MenschBeschaeftigungArbeitgeber
 )
 GO
 
+---- Mensch hat Krankheit ----
+
+CREATE TABLE MenschKrankheit
+(
+	Mensch UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT DF_MenschKrankheit_Mensch DEFAULT NEWID()
+		CONSTRAINT FK_MenschKrankheit_Mensch REFERENCES Mensch (ID),
+	Krankheit UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT FK_MenschKrankheit_Krankheit REFERENCES Krankheit (ID),
+	Diagnose
+		DATE
+		NOT NULL,
+
+	CONSTRAINT PK_MenschKrankheit PRIMARY KEY (Mensch, Krankheit)
+)
+GO
+
+---- Arzt -----
+CREATE TABLE Arzt
+(
+	ID UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT PK_Arzt PRIMARY KEY
+		CONSTRAINT FK_Arzt_Mensch FOREIGN KEY REFERENCES Mensch(ID)
+)
+GO
+
+---- Mensch wird wegen Krankheit behandelt ----
+
+CREATE TABLE Behandlung
+(
+	ID UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT PK_Behandlung PRIMARY KEY
+		CONSTRAINT DF_Behandlung_ID DEFAULT NEWID(),
+	Mensch UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT FK_Behandlung_Mensch REFERENCES Mensch (ID),
+	Krankheit UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT FK_Behandlung_Krankheit REFERENCES Krankheit (ID),
+	Datum
+		DATE
+		NOT NULL,
+	Start
+		TIME
+		NOT NULL,
+	Ende
+		TIME
+		NOT NULL,
+	Arzt
+		UNIQUEIDENTIFIER
+		NOT NULL
+		CONSTRAINT FK_Behandlung_Arzt REFERENCES Arzt (ID)
+		CONSTRAINT CK_Behandlung_Arzt CHECK (Mensch <> Arzt),
+	Notiz
+		TEXT
+		NOT NULL
+)
+GO
