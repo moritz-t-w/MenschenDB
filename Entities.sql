@@ -84,7 +84,8 @@ CREATE TABLE Ort
 		NOT NULL,
 	Land -- Are there adresses outside of countries...? I hope not
 		UNIQUEIDENTIFIER
-		NOT NULL,
+		NOT NULL
+		CONSTRAINT FK_Ort_Land FOREIGN KEY REFERENCES Land(ID)
 )
 Go
 
@@ -101,7 +102,10 @@ CREATE TABLE Adresse
 		CONSTRAINT DF_Adresse_ID DEFAULT NEWID(),
 	Strasse
 		UNIQUEIDENTIFIER
-		NOT NULL,
+
+NOT NULL
+CONSTRAINT FK_Adresse_Strasse FOREIGN KEY REFERENCES Strasse
+(ID),
 	Nummer -- worlds longest street number: 986039, TINYINT is not enough
 		INT
 		NOT NULL,
@@ -110,7 +114,10 @@ CREATE TABLE Adresse
 		NOT NULL,
 	Ort
 		UNIQUEIDENTIFIER
-		NOT NULL,
+
+NOT NULL
+CONSTRAINT FK_Adresse_Ort FOREIGN KEY REFERENCES Ort
+(ID),
 )
 Go
 
